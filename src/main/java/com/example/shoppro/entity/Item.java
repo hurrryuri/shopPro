@@ -1,6 +1,7 @@
 package com.example.shoppro.entity;
 
 import com.example.shoppro.constant.ItemSellStatus;
+import com.example.shoppro.entity.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.javapoet.NameAllocator;
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Table(name = "item")
-public class Item {
+public class Item extends BaseEntity {
 
     @Id
     @Column(name = "item_id")   //테이블에서 매핑될 컬럼
@@ -37,8 +38,6 @@ public class Item {
     @Enumerated(EnumType.STRING)    // enum가지고 만듬, yes/no, sell/
     private ItemSellStatus itemSellStatus;  //상품 판매 상태
 
-    private LocalDateTime regTime;  //상품등록시간
-    private LocalDateTime updateTime;   //상품수정시간
 }
 
 
