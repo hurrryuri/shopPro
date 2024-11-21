@@ -2,14 +2,18 @@ package com.example.shoppro.entity;
 
 import com.example.shoppro.constant.ItemSellStatus;
 import com.example.shoppro.entity.base.BaseEntity;
+import com.example.shoppro.repository.ItemImgRepository;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.javapoet.NameAllocator;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString //(exclude = "itemImgList")      //toString 변수 제외할 변수명
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -37,6 +41,14 @@ public class Item extends BaseEntity {
 
     @Enumerated(EnumType.STRING)    // enum가지고 만듬, yes/no, sell/
     private ItemSellStatus itemSellStatus;  //상품 판매 상태
+
+    @OneToMany
+    @JoinColumn(name = "item_id")
+    private List<ItemImg> itemImgList;
+
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "member_id")
+//    private Member member;
 
 }
 

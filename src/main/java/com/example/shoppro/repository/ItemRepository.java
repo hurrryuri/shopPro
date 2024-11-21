@@ -11,7 +11,6 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     //제품명으로 검색. 제품명은 동일한 이름이 있을 수 있으니
     //여러개 출력가능 List 사용
 
-
     public List<Item> findByItemNm (String itemNm);
     @Query("select i from Item i where i.itemNm = :itemNm")
     public List<Item> selectwhereItemNm(String itemNm);
@@ -40,6 +39,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     //nativeQuery 사용
     @Query(value = "select * from Item i where i.item_nm = :itemNm", nativeQuery = true)
     List<Item> nativeQuerySelectwhereNameLike(String itemNm, Pageable pageable);
+
 }
 
 
