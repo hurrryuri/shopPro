@@ -176,6 +176,7 @@ class ItemRepositoryTest {
 
         JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
 
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
         QItem qItem = QItem.item;
         //select * from item
         String keyword = null;
@@ -188,6 +189,7 @@ class ItemRepositoryTest {
                         .orderBy(qItem.price.desc());
 
         List<Item> itemList = query.fetch();
+
         for(Item item : itemList){
             System.out.println(item.getItemNm());
         }

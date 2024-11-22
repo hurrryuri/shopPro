@@ -39,16 +39,20 @@ public class Item extends BaseEntity {
     private String itemDetail;  //상품 상세설명
     //상품 판매 상태
 
+
+
     @Enumerated(EnumType.STRING)    // enum가지고 만듬, yes/no, sell/
     private ItemSellStatus itemSellStatus;  //상품 판매 상태
+    //    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "member_id")
+//    private Member member;*/
 
-    @OneToMany
-    @JoinColumn(name = "item_id")
+
+    @OneToMany(mappedBy = "item", cascade = CascadeType.REMOVE)
     private List<ItemImg> itemImgList;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "member_id")
-//    private Member member;
+
+
 
 }
 
