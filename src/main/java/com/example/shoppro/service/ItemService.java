@@ -60,6 +60,17 @@ public class ItemService {
 
         return itemDTO;
     }
+    public ItemDTO read(Long id, String email){
+
+        Item item =
+                itemRepository.findByIdAndCreateBy(id, email);
+
+        ItemDTO itemDTO = modelMapper.map(item, ItemDTO.class)
+                .setItemImgDTOList(item.getItemImgList());
+
+
+        return itemDTO;
+    }
 
 
     public PageResponseDTO<ItemDTO> list(PageRequestDTO pageRequestDTO, String email){
