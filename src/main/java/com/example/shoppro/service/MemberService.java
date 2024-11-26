@@ -1,5 +1,6 @@
 package com.example.shoppro.service;
 
+import com.example.shoppro.constant.Role;
 import com.example.shoppro.dto.MemberDTO;
 import com.example.shoppro.entity.Member;
 import com.example.shoppro.repository.MemberRepository;
@@ -64,6 +65,7 @@ public class MemberService implements UserDetailsService {
 
         return member;
     }
+
 
     //회원가입시 회원 가입여부 확인하는 메소드
     private void validateDuplicateMember(String email){

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -40,6 +41,21 @@ public class FileService {
         fos.close();
 
         return saveFileName;
+
+    }
+
+    public void removefile(String imgName){
+        String delFileurl = itemImgLocation + "/" + imgName;
+        System.out.println(delFileurl);
+        System.out.println(delFileurl);
+        System.out.println(delFileurl);
+        System.out.println(delFileurl);
+        File file = new File(delFileurl);
+
+        if(file.exists()){ //파일 존재여부 확인
+            file.delete();
+
+        }
 
     }
 }

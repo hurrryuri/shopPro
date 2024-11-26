@@ -23,6 +23,7 @@
 
                         </div>
                     </div>
+
                     <div class="col-12">
                         <div class="mb-3">
                             <label for="price" class="form-label">가격</label>
@@ -56,11 +57,13 @@
                             </select>
                         </div>
                     </div>
+                    <!--이미지 미리보기 -->
                     <div class="col-12">
                         <div class="row  main imgpreview">
+                            </div>
 
-                        </div>
-                        <div class="row imgpreviewinput imgpreview">
+                        <div class="row row-cols-md-3 imgpreviewinput imgpreview">
+
 
                         </div>
 
@@ -185,7 +188,8 @@
 
                         inputtag.type = "file"
                         inputtag.name = "multipartFile"
-                        // inputtag.files = input.files
+                        // inputtag.files = input.files //참조값 주소
+
                         const dataTranster = new DataTransfer();
                         const fileDatas = Array.from(input.files);
                         /*신규 파일데이터는..
@@ -196,11 +200,12 @@
                         inputtag.files = dataTranster.files;
 
                         let str1 = ` <div class="preview col">
-                                  <img width="100%" src="${e.target.result}">
-                                  <button type='button' class='bb'>올리지 않기</button>
-                                </div>`
+                                         <img width="100%" src="${e.target.result}">
+                                         <button type='button' class='bb'>올리지 않기</button>
+                                     </div>`
                         $(".main").html(str1)
                         $(".main").find('div:eq(0)').append(inputtag)
+                        $(".main").find('input').hide()
                         $(".imgInput").val("")
 
                     };
@@ -227,7 +232,7 @@
                                   <img width="100%" src="${e.target.result}">
                                   <button type='button' class='bb'>올리지 않기</button>
                                 </div>`
-                        $(".imgpreviewinput").append(str1)
+                        $(".imgpreviewinput").prepend(str1)
                         // $(".imgpreviewinput").append(str)
                         $(".imgpreviewinput").find('div:eq(0)').prepend(inputtag)
                         $(".imgpreviewinput").find('input:eq(0)').hide()

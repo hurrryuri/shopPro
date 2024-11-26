@@ -4,6 +4,7 @@ import com.example.shoppro.dto.ItemDTO;
 import com.example.shoppro.dto.PageRequestDTO;
 import com.example.shoppro.dto.PageResponseDTO;
 import com.example.shoppro.entity.Item;
+import com.example.shoppro.repository.CateRepository;
 import com.example.shoppro.service.ItemService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -28,6 +29,7 @@ public class ItemController {
 
     private final ItemService itemService;
 
+
     @GetMapping("/admin/item/new")
     public String itemForm(Model model, Principal principal){
         if(principal == null){
@@ -39,6 +41,7 @@ public class ItemController {
             log.info(principal.getName());
         }
         model.addAttribute("itemDTO", new ItemDTO());
+
         return "/item/itemForm";
     }
     @PostMapping("/admin/item/new")
@@ -152,6 +155,23 @@ public class ItemController {
         }
 
 
+    }
+
+    @PostMapping("/admin/item/update")
+    public String itemupdate(@Valid ItemDTO itemDTO, BindingResult bindingResult, List<MultipartFile> multipartFiles, Integer[] delino, Long mainino){
+
+        if (bindingResult.hasErrors()){
+            log.info("유효성검사 에러");
+            log.info(bindingResult.getAllErrors()); //확인된 모든 에러 콘솔창 출력
+
+
+            return "/item/update";        //다시 이전 페이지
+        }
+
+        itemService.update(itemDTO, itemDTO.getId(), multipartFiles, delino, mainino);
+
+
+        return null;
     }
 
 

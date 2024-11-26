@@ -88,7 +88,7 @@
 
 
                         <!-- 반복되는 페이지들 -->
-                        <th:block th:each="num: ${#numbers.sequence(pageResponseDTO.star, pageResponseDTO.end)}">
+                        <th:block th:each="num: ${#numbers.sequence(pageResponseDTO.start, pageResponseDTO.end)}">
                         <li class="page-item"><a class="page-link" th:href="|@{'/admin/item/list?page='+${num}}|">[[${num}]]</a></li>
 
                         </th:block>
@@ -105,7 +105,19 @@
 
     </th:block>
 
-    <script>
+    <script th:inline="javascript">
+        $(document).ready(function (){
+
+            $(".updateMoveBtn").on("click", function (){
+
+                location.href = "/admin/item/update?id=" + $(this).val();
+            })
+            $(".delMoveBtn").on("click", function (){
+                location.href = "/admin/item/update?id=" + $(this).val();
+            })
+        })
+
+
         $(".newproduct").on("click", function (){
             location.href = "/admin/item/new";
         })
