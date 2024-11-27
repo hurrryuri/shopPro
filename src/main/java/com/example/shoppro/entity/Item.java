@@ -8,6 +8,7 @@ import lombok.*;
 import org.springframework.javapoet.NameAllocator;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -48,8 +49,8 @@ public class Item extends BaseEntity {
 //    private Member member;*/
 
 
-    @OneToMany(mappedBy = "item", cascade = CascadeType.REMOVE)
-    private List<ItemImg> itemImgList;
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    private List<ItemImg> itemImgList = new ArrayList<>();
 
 
 
