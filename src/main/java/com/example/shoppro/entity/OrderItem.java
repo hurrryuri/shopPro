@@ -1,11 +1,8 @@
 package com.example.shoppro.entity;
 
-import com.example.shoppro.constant.OrderStatus;
 import com.example.shoppro.entity.base.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -27,7 +24,7 @@ public class OrderItem extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)  //회원 엔티티와 일대일로 매핑
     @JoinColumn(name= "item_id")  //매핑할 외래키 지정
-    private Order item;
+    private Item item;
 
 
     private int orderPrice; //주문가격

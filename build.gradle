@@ -61,6 +61,12 @@ dependencies {
 
 }
 
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+
 sourceSets {
 
     main {
@@ -72,7 +78,3 @@ sourceSets {
 
 
 compileJava.dependsOn('clean')
-
-tasks.named('test') {
-    useJUnitPlatform()
-}
