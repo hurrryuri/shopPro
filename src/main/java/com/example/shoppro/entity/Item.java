@@ -49,7 +49,8 @@ public class Item extends BaseEntity {
 //    private Member member;*/
 
 
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL,
+            orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ItemImg> itemImgList = new ArrayList<>();
 
 

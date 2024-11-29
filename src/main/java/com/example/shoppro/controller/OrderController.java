@@ -3,19 +3,26 @@ package com.example.shoppro.controller;
 import com.example.shoppro.constant.OrderStatus;
 import com.example.shoppro.dto.ItemDTO;
 import com.example.shoppro.dto.OrderDTO;
+import com.example.shoppro.dto.OrderHistDTO;
 import com.example.shoppro.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 @Controller
@@ -39,9 +46,11 @@ public class OrderController {
     @PostMapping("/order")
     public   ResponseEntity order(@Valid OrderDTO orderDTO, BindingResult bindingResult , Principal principal){
 
-        log.info(orderDTO);
-        log.info(orderDTO);
-        log.info(orderDTO);
+//        if(principal == null){
+//            return new ResponseEntity<String >(HttpStatus.UNAUTHORIZED); //401에러
+//        }
+
+
         // 유효성검사
         if(bindingResult.hasErrors()){
             StringBuffer sb = new StringBuffer();       //String
@@ -70,18 +79,53 @@ public class OrderController {
         orderService.order(orderDTO, principal.getName());
 
 
-        if(result!=null){
 
-            return new ResponseEntity<String>("주문완료" + result + "번 아이템을 구매하셨습니다.", HttpStatus.OK);
+        if(result==null) {
 
-        }else {
+            return new ResponseEntity<String>("주문수량이 판매가능수량보다 많습니다.", HttpStatus.OK);
 
-            return new ResponseEntity<String>("못샀지롱 안샀지롱", HttpStatus.OK);
+        }
+            return new ResponseEntity<String>("주문완료", HttpStatus.OK);
 
         }
 
-    }
 
+
+
+
+
+
+
+
+    @GetMapping({"/orders", "/orders/{page}"})
+    public String orderHist(@PathVariable("page")Optional<Integer> page,
+                            Principal principal, Model model) {
+
+        log.info("진입");
+        if (principal == null) {
+            log.info("로그인이 필요함");
+            log.info("로그인이 필요함");
+            log.info("로그인이 필요함");
+            log.info("로그인이 필요함");
+
+            return "redirect:/members/login";
+        }
+
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 4);
+        log.info(pageable);
+
+        String email = principal.getName();
+        Page<OrderHistDTO> orderHistDTOPage =
+        orderService.getOrderList(email, pageable);
+        //페이징처리에 필요하던것들 start end next pre t/f total
+
+        model.addAttribute("orders", orderHistDTOPage);
+        //html들어가서 getContent() 함수 호출
+        model.addAttribute("page", pageable.getPageNumber());
+        model.addAttribute("maxPage", 5);
+
+        return "order/orderHist";
+    }
 
 
 
