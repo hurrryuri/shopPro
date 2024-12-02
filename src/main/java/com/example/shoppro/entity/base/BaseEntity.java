@@ -12,22 +12,21 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+
 @EntityListeners(value = {AuditingEntityListener.class})
 @MappedSuperclass
 @Getter
 @Setter
 public class BaseEntity extends BaseTimeEntity{
 
-
-
     //만든이
     @Column(updatable = false)
     @CreatedBy
     private String createBy;
-
     //수정한이
     @LastModifiedBy
-    private String modifyBy;
+    private String modifiedBy;
+
 
 
 }

@@ -18,17 +18,13 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class BaseTimeEntity {
-
-
-
     //만든날짜
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime regTime;
-
-
-
     //수정날짜
     @LastModifiedDate
     private LocalDateTime updateTime;
+
+
 }

@@ -23,35 +23,32 @@ import java.util.stream.Collectors;
 @Builder
 public class ItemDTO {
 
-
-    private Long id;       // 상품코드
+    private Long id;            //상품 코드
 
     @NotBlank
     @Size(max = 50, min = 2, message = "상품명은 2~50자 입니다.")
-    private String itemNm; //상품명
+    private String itemNm;      //상품명
 
     @NotNull
     @PositiveOrZero
-    private int price;  //가격
+    private int price;          //가격
 
     @NotNull
     @PositiveOrZero
-    private int stockNumber;    //재고수량
+    private int stockNumber;    // 재고수량
 
     @NotBlank
     private String itemDetail;  //상품 상세설명
-    //상품 판매 상태
 
-
-    private ItemSellStatus itemSellStatus;  //상품 판매 상태
+    private ItemSellStatus itemSellStatus;      // 상품 판매 상태
 
     private List<ItemImgDTO> itemImgDTOList;
 
-    private String creatBy;
+    private String createBy;
     private LocalDateTime regTime;
     private LocalDateTime updateTime;
 
-    public ItemDTO setItemImgDTOList(List<ItemImg> itemImgList){
+    public ItemDTO setItemImgDTOList(List<ItemImg> itemImgList) {
 
         ModelMapper modelMapper = new ModelMapper();
 
@@ -64,8 +61,4 @@ public class ItemDTO {
 
         return this;
     }
-
-
 }
-
-

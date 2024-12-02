@@ -38,13 +38,13 @@ public class ItemImgService {
                     log.info("아이템이미지서비스로 들어온 이미지" + img.getOriginalFilename());
                     //물리적인 저장
                     String savedFileName =      //uuid가 포함된 물리적인 파일이름
-                            fileService.uploardFile(img);
-
-
+                    fileService.uploadFile(img);
+                    
+                    
                     // db저장
                     //엔티티를 가져왔다면 중복코드를 사용할 필요가 없어진다.해볼것
                     Item item =
-                            itemRepository.findById(id).get();
+                    itemRepository.findById(id).get();
 
                     String imgUrl = "/images/item/" + savedFileName;
 
@@ -85,7 +85,7 @@ public class ItemImgService {
                     log.info("아이템이미지서비스로 들어온 이미지" + img.getOriginalFilename());
                     //물리적인 저장
                     String savedFileName =      //uuid가 포함된 물리적인 파일이름
-                            fileService.uploardFile(img);
+                            fileService.uploadFile(img);
 
                     Item item =
                             itemRepository.findById(id).get();
@@ -102,13 +102,11 @@ public class ItemImgService {
                         if(multipartFile.indexOf(img) == 0){
 
                             itemImg =
-                                    itemImgRepository.findByItemIdAndRepimgYn(id, "Y");
-
+                            itemImgRepository.findByItemIdAndRepimgYn(id, "Y");
                             itemImg.setItem(item);      //본문 // 이미지가 달릴 아이템
                             itemImg.setImgName(savedFileName);       //uuid포함 저장될 이름
                             itemImg.setImgUrl(imgUrl);        //경로
                             itemImg.setOriImgName(img.getOriginalFilename());    // 원래이름
-
 
 //                            itemImg.setRepimgYn("Y");      //대표이미지
                         }else {
@@ -140,7 +138,7 @@ public class ItemImgService {
     public void removeimg(Long id){
         //물리적파일을 삭제하기위해서 데이터를 가져온다.
         ItemImg itemImg =
-                itemImgRepository.findById(id).get();
+        itemImgRepository.findById(id).get();
 
         //저장경로 value 위에 있는 value 이미 이건 파일service안에 있음
 

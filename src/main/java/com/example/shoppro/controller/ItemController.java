@@ -4,7 +4,6 @@ import com.example.shoppro.dto.ItemDTO;
 import com.example.shoppro.dto.PageRequestDTO;
 import com.example.shoppro.dto.PageResponseDTO;
 import com.example.shoppro.entity.Item;
-import com.example.shoppro.repository.CateRepository;
 import com.example.shoppro.service.ItemService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -19,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
-import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -29,7 +27,6 @@ public class ItemController {
     //이전 boardController 라고 생각하면 됨
 
     private final ItemService itemService;
-
 
     @GetMapping("/admin/item/new")
     public String itemForm(Model model, Principal principal){
@@ -42,12 +39,11 @@ public class ItemController {
             log.info(principal.getName());
         }
         model.addAttribute("itemDTO", new ItemDTO());
-
         return "/item/itemForm";
     }
     @PostMapping("/admin/item/new")
     public String itemFormPost(@Valid ItemDTO itemDTO, BindingResult bindingResult,
-                               List<MultipartFile> multipartFile, Model model){
+                               List<MultipartFile> multipartFile ,Model model){
         //들어오는값 확인
         log.info("들어오는값 확인" + itemDTO);
 
@@ -120,7 +116,7 @@ public class ItemController {
 //        model.addAttribute("list", itemService.list());
 //      principal  로그인시 세션에 등록된 이름 우리는 email
         PageResponseDTO<ItemDTO> pageResponseDTO =
-                itemService.list(pageRequestDTO, principal.getName());
+        itemService.list(pageRequestDTO, principal.getName());
 
         model.addAttribute("pageResponseDTO", pageResponseDTO);
 
@@ -134,7 +130,7 @@ public class ItemController {
                                  Model model, Principal principal){
 
 
-        //기존 read는 email을 확인하지 않았다.
+        //기존 read는 email을 확인하지 않았다. 
         //관리자는 자신의 글만 봐야함으로 자신의 상품을 검색하는 쿼리는 추가하자
         // 1 검색하고 값을가지고 확인하고 다시 맞다면 list , 만들기 쉽다
         // 2 검색부터 자신의 값을 가져오자  , 정확하다?
@@ -155,11 +151,12 @@ public class ItemController {
             return "redirect:/admin/item/list";
         }
 
-
     }
 
+
     @PostMapping("/admin/item/update")
-    public String itemupdate(@Valid ItemDTO itemDTO, BindingResult bindingResult, List<MultipartFile> multipartFiles, Integer[] delino, Long mainino){
+    public String itemupdate(@Valid ItemDTO itemDTO, BindingResult bindingResult,  List<MultipartFile> multipartFiles,   Integer[] delino, Long mainino) {
+
 
         if (bindingResult.hasErrors()){
             log.info("유효성검사 에러");
@@ -175,6 +172,7 @@ public class ItemController {
         return null;
     }
 
+
     @PostMapping("/admin/item/del")
     public String delitem(Long id){
 
@@ -183,14 +181,11 @@ public class ItemController {
         itemService.remove(id);
 
 
-
         return "redirect:/admin/item/list";
     }
 
     @GetMapping("/item/read")
-    public String read( Long id, Model model, RedirectAttributes redirectAttributes){
-
-
+    public String read(Long id, Model model, RedirectAttributes redirectAttributes){
 
         try {
             ItemDTO itemDTO =
@@ -207,5 +202,19 @@ public class ItemController {
         }
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

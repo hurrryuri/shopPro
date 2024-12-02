@@ -33,12 +33,12 @@ public class PageRequestDTO {
 
   private String link; //주소
 
-  private String searchDateType;  //all, 1d, 1w, 1m, 6m
-                                // <select name = "searchdatetype>
-                                // <option value="all>전체</option>
-                                // <option value="all>하루전</option>
-                                // <option value="all>한달전</option>
-                                // </select>
+  private String searchDateType;   // all , 1d, 1w, 1m, 6m
+                              // <select name = "searchdatetype>
+                                  //<option value="all">전체</option>
+                                  //<option value="1d">하루전</option>
+                                  //<option value="1w">한달전</option>
+                              // </select>
 
   private ItemSellStatus itemSellStatus;
   private String searchBy;
