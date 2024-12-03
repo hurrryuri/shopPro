@@ -28,5 +28,16 @@ public class Cart {
     // 생성되지 않을수 있기 때문
 
 
+    // 카트 생성 메소드
+    // 이 메소드는 정적 메소드로 실행시 member타입의 객체를 입력받아(파라미터)
+    //Cart타입을 반환한다.
+    public static Cart createCart(Member member){
+        Cart cart = new Cart();
+        cart.setMember(member);
+
+        return cart;
+    }
+
+
 
 }

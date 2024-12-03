@@ -9,35 +9,39 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 @SpringBootTest
 @Log4j2
-class MemberServiceTest {
+class MemberSericeTest {
 
-    @Autowired
-    MemberService memberService;
+        @Autowired
+        MemberSerice memberSerice;
 
-    @Test
-    @DisplayName("회원가입테스트")
-    public void saveMemberTest(){
+        @Test
+        @DisplayName("회원가입 테스트")
+        public void saveMemberTest(){
 
-        MemberDTO memberDTO = MemberDTO.builder()
-                .address("경남 사이타마현")
-                .email("sin@a.a")
-                .password("1234")
-                .name("신짱구")
-                .build();
+                MemberDTO memberDTO = MemberDTO.builder()
+                        .address("경남 사이타마현 ")
+                        .email("sin@a.a")
+                        .password("1234")
+                        .name("신짱구")
+                        .build();
 
-        try{
-            Member member =
-                    memberService.saveMember(memberDTO);
-            log.info(member);
+                try {
+                        Member member =
+                                memberSerice.saveMember(memberDTO);
+                        log.info(member);
 
-        }catch (IllegalStateException e){
-            log.info(e.getMessage());
+                }catch (IllegalStateException e){
+                        log.info(e.getMessage());
+                }
+
+
+
+
 
         }
 
-
-    }
 
 }
