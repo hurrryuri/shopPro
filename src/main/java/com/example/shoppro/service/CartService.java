@@ -1,5 +1,6 @@
 package com.example.shoppro.service;
 
+import com.example.shoppro.dto.CartDetailDTO;
 import com.example.shoppro.dto.CartItemDTO;
 import com.example.shoppro.entity.Cart;
 import com.example.shoppro.entity.CartItem;
@@ -14,6 +15,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.security.PublicKey;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Log4j2
@@ -39,8 +44,12 @@ public class CartService {
     //그 값을 가지고 넣을 것이고 컨트롤러에서 들어오는 email을 통해서 멤버를 찾을 예정
     public Long addCart(CartItemDTO cartItemDTO, String email) {
         log.info("장바구니서비스로 들어온 email " + email);
+        log.info("장바구니서비스로 들어온 cartItemDTO " + cartItemDTO);
 
+        //회원찾기
         Member member = memberRepository.findByEmail(email);
+
+        log.info("장바구니서비스에서 찾은 member" +  member);
 
         //너가 산다고 한 장바구니에 넣는다고 한 장바구니 아이템이
         //없는 아이템이면? 있긴 함?
@@ -75,6 +84,33 @@ public class CartService {
             return cartItem.getId();
 
         }
+
+
+    }
+
+    public List<CartDetailDTO> getCartList(String email){
+        //장바구니의 pk는 1:1 관계이기 때문에 그리고 email은 member테이블에서
+        //유니크키 이기에 유일하다. 멤버는 1, 그에 관계의 장바구니도 1
+
+        List<CartDetailDTO> cartDetailDTOList = new ArrayList<>();
+
+        Member member =
+                memberRepository.findByEmail(email);
+
+        Cart cart = cartRepository.findByMemberId(member.getId());
+//        Cart cart = cartRepository.findByMemberEmail(email); 이렇게도 가능
+
+        if(cart == null) {
+            //카트가 존재하지 않는다면
+
+            return cartDetailDTOList;
+        }
+
+        //장바구니에 담겨있는 상품정보를 조회
+        cartDetailDTOList = cartItemRepository.findCartDetailDTOList(cart.getId());
+
+        return cartDetailDTOList;
+
 
     }
 
