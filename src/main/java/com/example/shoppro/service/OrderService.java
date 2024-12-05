@@ -1,10 +1,12 @@
 package com.example.shoppro.service;
 
 import com.example.shoppro.constant.OrderStatus;
+import com.example.shoppro.dto.CartOrderDTO;
 import com.example.shoppro.dto.OrderDTO;
 import com.example.shoppro.dto.OrderHistDTO;
 import com.example.shoppro.dto.OrderItemDTO;
 import com.example.shoppro.entity.*;
+import com.example.shoppro.repository.CartItemRepository;
 import com.example.shoppro.repository.ItemRepository;
 import com.example.shoppro.repository.MemberRepository;
 import com.example.shoppro.repository.OrderRepository;
@@ -31,6 +33,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final ItemRepository itemRepository;
     private final MemberRepository memberRepository;
+
 
 
     //주문 order, orderItem
@@ -137,7 +140,7 @@ public class OrderService {
             //    private List<OrderItem> orderItemList = new ArrayList<>();
             // 이부분을 set해줬기에 둘다 저장된다.
             order =
-            orderRepository.save(order);
+                    orderRepository.save(order);
 
 
 
@@ -147,6 +150,44 @@ public class OrderService {
         }
 
 
+
+    }
+
+
+    public Long orders(List<OrderDTO> orderDTOList, String email){
+
+        //주문을 했다면 판매하고 있는 상품의 수량 변경
+
+
+        Member member = memberRepository.findByEmail(email);
+        List<OrderItem> orderItemList = new ArrayList<>();
+        Order  order = new Order();
+
+        for(OrderDTO orderDTO   : orderDTOList){
+            Item item =
+                    itemRepository.findById(orderDTO.getItemId())
+                            .orElseThrow(EntityNotFoundException::new);
+
+
+            OrderItem orderItem = new OrderItem();
+            orderItem.setItem(item);
+            orderItem.setCount(orderDTO.getCount()  );
+            orderItem.setOrderPrice(item.getPrice());
+            orderItem.setOrder(order);
+
+            item.setStockNumber(item.getStockNumber()   - orderDTO.getCount() );
+
+            orderItemList.add(orderItem);
+
+        }
+        order.setMember(member);
+        order.setOrderStatus(OrderStatus.ORDER);
+        order.setOrderDate(LocalDateTime.now());
+        order.setOrderItemList(orderItemList);
+
+        orderRepository.save(order);
+
+        return order.getId();
 
     }
 
@@ -187,13 +228,13 @@ public class OrderService {
                 List<ItemImg> itemImgList = orderItem.getItem().getItemImgList();
                 //A에 달려있는 이미지들
                 //그중에 대표이미지
-                 for( ItemImg itemImg :itemImgList){
-                     if(itemImg.getRepimgYn().equals("Y")){
+                for( ItemImg itemImg :itemImgList){
+                    if(itemImg.getRepimgYn().equals("Y")){
 
-                         orderItemDTO.setImgUrl(  itemImg.getImgUrl() );
+                        orderItemDTO.setImgUrl(  itemImg.getImgUrl() );
 
-                     }
-                 }
+                    }
+                }
                 orderHistDTO.addOrderItemDTO(orderItemDTO);
 
             }
@@ -204,5 +245,7 @@ public class OrderService {
         }
         return new PageImpl<OrderHistDTO>(orderHistDTOList, pageable, totalCount);
     }
+
+
 
 }

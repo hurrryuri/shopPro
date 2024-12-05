@@ -41,10 +41,12 @@ public class MainController {
 
         pageRequestDTO.setSize(6);
         PageResponseDTO<ItemDTO>  pageResponseDTO =
-        itemService.mainlist(pageRequestDTO);
+                itemService.mainlist(pageRequestDTO);
         //현재페이지, 1페이지당 사이즈 , 검색키워드 등등이 있다면 그에 맞는 값들
         // start, end, pre, next 이런것들 총페이지수 등등
         model.addAttribute("pageResponseDTO", pageResponseDTO);
+
+
 
         return "main";
 
