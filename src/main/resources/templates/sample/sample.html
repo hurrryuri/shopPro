@@ -6,18 +6,122 @@
 <head>
     <meta charset="UTF-8">
     <title>b</title>
-
 </head>
 <body>
 
 <th:block layout:fragment="content">
-    <div>
-        zzzzzzzz
+
+    <div class="row">
+        <form action="/category/register" method="post">
+            카테고리명 : <input type="text" name="caname">
+            <button>카테고리저장</button>
+        </form>
+    </div>
+    <hr>
+    <div class="row">
+        <form action="/categoryso/register" method="post">
+            <select name="caid">
+                <th:block th:each="list: ${calist}">
+                    <option th:value="${list.id}"  th:text="${list.caname}"></option>
+                </th:block>
+
+            </select>
+            카테고리 '소' 명 : <input type="text" name="caname">
+            <button>카테고리 소 저장</button>
+        </form>
+    </div>
+    <hr>
+
+
+    <div class="row">
+        <form action="/category/boardnew" method="post">
+
+            게시판 종류선택 :
+            <select name="caid" class="abab">
+                <option>선택</option>
+                <th:block th:each="list: ${calist}">
+                    <option th:value="${list.id}"  th:text="${list.caname}"></option>
+                </th:block>
+
+            </select>
+
+            <select name="casoid" class="ab">
+
+                <option value="">선택</option>
+
+            </select>
+
+            <br>
+            게시판 제목 : <input type="text" name="title">
+            <button>카테고리저장</button>
+        </form>
+    </div>
+
+    <script th:inline="javascript">
+        let casolist = [[${casolist}]]
+        $(".abab").on("change", function () {
+
+            let str = "<option value=''>선택해주세요</option>";
+            for (let i = 0; i < casolist.length; i++) {
+
+                if($(this).val() == casolist[i].categoryDTO.id ){
+                    str += `<option value="${casolist[i].id}" >${casolist[i].caname}</option>`
+                }
+            }
+
+            $(".ab").html(str)
+        })
+
+    </script>
+
+    <div class="row">
+
+
+
+        <div class="col">
+            질문게시판 <a href="/sample/sample?caid=2">더보기</a>
+            <ul>
+                <th:block th:each="list: ${boardDTOListA}">
+
+                    <li th:text="${list.title}"></li>
+
+                </th:block>
+            </ul>
+
+        </div>
+        <div class="col">
+            자유게시판  <a href="/sample/sample?caid=3">더보기</a>
+            <ul>
+                <th:block th:each="list: ${boardDTOListB}">
+
+                    <li th:text="${list.title}"></li>
+
+                </th:block>
+            </ul>
+
+        </div>
+
+
+
+    </div>
+    <div class="row">
+
+        <div class="col">
+            변화된 게시판
+            <ul>
+                <th:block th:each="list: ${boardDTOList}">
+
+                    <li th:text="${list.title}"></li>
+
+                </th:block>
+            </ul>
+
+        </div>
+
+
     </div>
 
 </th:block>
-
-
 
 
 
